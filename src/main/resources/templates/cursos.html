@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Lista de Cursos</title>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        table {
+            width: 50%;
+            margin: auto;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+
+        a {
+            text-decoration: none;
+            color: white;
+            background: blue;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .delete {
+            background: red;
+        }
+    </style>
+    <!-- CSS propio -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <!-- MENU -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+
+            <a class="navbar-brand" href="#">UCR Siquirres</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="menu">
+                <ul class="navbar-nav ms-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">Inicio</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profesores">Profesores</a>
+                    </li>
+
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cursos">Cursos</a>
+                    </li>
+
+                </ul>
+            </div>
+
+        </div>
+    </nav>
+
+    <h2 style="text-align:center" th:if="${profesor != null}" th:text="'Cursos de ' + ${profesor.name}"></h2>
+
+    <h2 style="text-align:center" th:if="${profesor == null}">
+        Lista de Cursos
+    </h2>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Capacidad</th>
+            <th>Acciones</th>
+        </tr>
+
+        <tr th:each="curso : ${cursos}">
+            <td th:text="${curso.id}"></td> <!-- SÍ funciona con @Data -->
+            <td th:text="${curso.name}"></td>
+            <td th:text="${curso.capacity}"></td>
+
+            <td>
+                <a th:href="@{/cursos/editar/{id}(id=${curso.id})}">Editar</a>
+                <a th:href="@{/cursos/eliminar/{id}(id=${curso.id})}" class="delete">Eliminar</a>
+            </td>
+        </tr>
+    </table>
+
+    <div style="text-align:center; margin-top: 20px;">
+        <th:block th:if="${profesor != null}">
+            <a th:href="@{/profesores/{id}/asignar-curso(id=${profesor.id})}" class="btn btn-success">Asignar Curso a
+                este profesor</a>
+        </th:block>
+        <th:block th:unless="${profesor != null}">
+            <a href="/cursos/nuevo" class="btn btn-primary">Agregar Nuevo Curso</a>
+        </th:block>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

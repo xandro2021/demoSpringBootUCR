@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Formulario de Profesores</title>
+</head>
+
+<body>
+    <h2 th:if="${profesor.id == null}">Nuevo Profesor</h2>
+    <h2 th:unless="${profesor.id == null}">Editar Profesor</h2>
+
+    <form th:action="@{/profesores/guardar}" th:object="${profesor}" method="post" style="text-align: center;">
+
+        <!-- Campo oculto para el ID - CRUCIAL para que sea UPDATE -->
+        <input type="hidden" th:field="*{id}" />
+
+        <!-- Campo meramente visual, el que se pasa es el hidden -->
+        <div th:if="${profesor.id != null}">
+            <label>ID:</label>
+            <input type="text" th:field="*{id}" readonly class="form-control" />
+        </div>
+
+        <!-- Los demás campos normales -->
+        <div>
+            <label>Nombre:</label>
+            <input type="text" th:field="*{name}" required />
+        </div>
+
+        <div>
+            <label>Dirección:</label>
+            <input type="text" th:field="*{address}" required />
+        </div>
+
+        <div>
+            <label>Teléfono:</label>
+            <input type="text" th:field="*{phone}" required />
+        </div>
+
+        <button type="submit">Guardar</button>
+    </form>
+    <div style="text-align:center; margin-top: 20px;">
+        <a href="/profesores">Volver</a>
+    </div>
+</body>
+
+</html>
